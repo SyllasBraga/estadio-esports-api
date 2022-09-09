@@ -19,6 +19,7 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String cpf;
     private String nome;
     private int idade;
     private String login;
