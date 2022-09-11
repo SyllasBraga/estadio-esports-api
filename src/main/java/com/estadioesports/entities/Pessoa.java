@@ -1,16 +1,15 @@
 package com.estadioesports.entities;
 
+import com.estadioesports.services.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -28,6 +27,9 @@ import java.util.UUID;
         private int idade;
         private String login;
         private String senha;
+
+        @Column(name = "role_id")
+        private Roles roleId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
