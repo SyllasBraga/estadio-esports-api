@@ -17,6 +17,4 @@ public class Administrador extends Pessoa{
 
     private double salario;
 
-    public Administrador(String login, String senha, boolean b, boolean b1, boolean b2, boolean b3, Collection<? extends GrantedAuthority> authorities) {
-    }
 }

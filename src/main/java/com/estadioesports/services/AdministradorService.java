@@ -2,7 +2,10 @@ package com.estadioesports.services;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.estadioesports.entities.Administrador;
@@ -28,6 +31,7 @@ public class AdministradorService {
     }
 
     public Administrador create(Administrador adm){
+        adm.setSenha(passwordEncoder().encode(adm.getSenha()));
         return admRepository.save(adm);
     }
 
@@ -38,7 +42,7 @@ public class AdministradorService {
             Record.setLogin(adm.getLogin());
             Record.setNome(adm.getNome());
             Record.setSalario(adm.getSalario());
-            Record.setSenha(adm.getSenha());
+            Record.setSenha(passwordEncoder().encode(adm.getSenha()));
             Administrador atual = admRepository.save(Record);
             return ResponseEntity.ok().body(atual);
         }).orElse(ResponseEntity.notFound().build());
@@ -49,5 +53,9 @@ public class AdministradorService {
             admRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }).orElse( ResponseEntity.notFound().build());
+    }
+
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
