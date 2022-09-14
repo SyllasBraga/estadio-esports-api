@@ -1,6 +1,5 @@
 package com.estadioesports.entities;
 
-import com.estadioesports.services.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +27,14 @@ import java.util.UUID;
         private String login;
         private String senha;
 
-        @Column(name = "role_id")
-        private Roles roleId;
+        @ManyToMany
+        @JoinTable(name = "pessoa_roles", joinColumns = @JoinColumn(name = "id_pessoa"), 
+        inverseJoinColumns = @JoinColumn(name="id_role"))
+        private List<Roles> roleId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roleId;
     }
 
     @Override

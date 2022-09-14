@@ -5,5 +5,4 @@ public enum RoleName {
     tecnico,
     espectador,
     jogador;
-
 }

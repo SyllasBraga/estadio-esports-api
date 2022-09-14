@@ -1,12 +1,17 @@
-package com.estadioesports.services;
+package com.estadioesports.entities;
 
 import com.estadioesports.enuns.RoleName;
+
+import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.UUID;
+
+import java.util.List;
 
 @Entity
+@Data
 public class Roles implements GrantedAuthority{
 
     @Id
@@ -20,19 +25,4 @@ public class Roles implements GrantedAuthority{
         return this.roleName.toString();
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public RoleName getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(RoleName roleName) {
-        this.roleName = roleName;
-    }
 }
