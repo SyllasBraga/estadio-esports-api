@@ -1,8 +1,8 @@
 package com.estadioesports.configs.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,6 +24,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests()
+                .antMatchers(HttpMethod.GET, "/administradores/**").hasRole("administrador")
+                .antMatchers(HttpMethod.DELETE, "/administradores/**").hasRole("administrador")
+                .antMatchers(HttpMethod.POST, "/administradores/").hasRole("administrador")
+                .antMatchers(HttpMethod.PUT, "/administradores/").hasRole("administrador")
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
