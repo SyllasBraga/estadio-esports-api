@@ -38,7 +38,7 @@ public class AdministradorService {
 
     public ResponseEntity<Administrador>update(UUID id, Administrador adm){
         return admRepository.findById(id).map(Record->{
-            Record.setIdade(adm.getIdade());
+            Record.setDataNascimento(adm.getDataNascimento());
             Record.setCpf(adm.getCpf());
             Record.setLogin(adm.getLogin());
             Record.setNome(adm.getNome());
