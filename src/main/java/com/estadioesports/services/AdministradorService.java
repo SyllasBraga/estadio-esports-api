@@ -1,6 +1,7 @@
 package com.estadioesports.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AdministradorService {
         return admRepository.findAll();
     }
 
-    public ResponseEntity<Administrador> findById(long id){
+    public ResponseEntity<Administrador> findById(UUID id){
         return admRepository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
@@ -35,7 +36,7 @@ public class AdministradorService {
         return admRepository.save(adm);
     }
 
-    public ResponseEntity<Administrador>update(long id, Administrador adm){
+    public ResponseEntity<Administrador>update(UUID id, Administrador adm){
         return admRepository.findById(id).map(Record->{
             Record.setIdade(adm.getIdade());
             Record.setCpf(adm.getCpf());
@@ -48,7 +49,7 @@ public class AdministradorService {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<?> delete(long id){
+    public ResponseEntity<?> delete(UUID id){
         return admRepository.findById(id).map(Record -> {
             admRepository.deleteById(id);
             return ResponseEntity.ok().build();

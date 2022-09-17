@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping({"/administradores"})
@@ -20,33 +21,33 @@ public class AdministradorController {
         this.admService = admService;
     }
 
-    @PreAuthorize("hasRole('administrador')")
+    @PreAuthorize("permitAll")
     @GetMapping
     public List<Administrador> findAll(){
-        return admService.findAll();
+         return admService.findAll();
     }
 
-    @PreAuthorize("hasRole('administrador')")
+    @PreAuthorize("permitAll")
     @GetMapping(path="/{id}")
-    public ResponseEntity<Administrador> findById(@PathVariable long id){
+    public ResponseEntity<Administrador> findById(@PathVariable UUID id){
         return admService.findById(id);
     }
 
-    @PreAuthorize("hasRole('administrador')")
+    @PreAuthorize("permitAll")
     @PostMapping
     public Administrador create(@RequestBody Administrador adm){
         return admService.create(adm);
     }
 
-    @PreAuthorize("hasRole('administrador')")
+    @PreAuthorize("permitAll")
     @PutMapping(path="/{id}")
-    public ResponseEntity<Administrador> update(@PathVariable("id") long id, @RequestBody Administrador adm){
+    public ResponseEntity<Administrador> update(@PathVariable("id") UUID id, @RequestBody Administrador adm){
         return admService.update(id, adm);
-    }   
-    
-    @PreAuthorize("hasRole('administrador')")
+    }
+
+    @PreAuthorize("permitAll")
     @DeleteMapping(path="/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") long id){
+    public ResponseEntity<?> delete(@PathVariable("id") UUID id){
         return admService.delete(id);
     }
 

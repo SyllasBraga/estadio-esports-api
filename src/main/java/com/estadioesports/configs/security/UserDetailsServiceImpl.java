@@ -24,7 +24,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Administrador adm = admRepository.findByLogin(login)
-                .orElseThrow(()-> new UsernameNotFoundException("Esse login não foi encontrado" + login));
-        return new User(adm.getLogin(), adm.getSenha(), true, true, true, true, adm.getAuthorities());
+                .orElseThrow(()-> new UsernameNotFoundException
+                        ("Esse login não foi encontrado" + login));
+        return new User(adm.getLogin(), adm.getSenha(), true,
+                true, true,
+                true, adm.getAuthorities());
     }
 }

@@ -18,8 +18,9 @@ import java.util.UUID;
     public class Pessoa implements UserDetails {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        @org.hibernate.annotations.Type(type="uuid-char")
+        private UUID id;
 
         private String cpf;
         private String nome;
@@ -28,13 +29,13 @@ import java.util.UUID;
         private String senha;
 
         @ManyToMany
-        @JoinTable(name = "pessoa_roles", joinColumns = @JoinColumn(name = "id_pessoa"), 
+        @JoinTable(name = "pessoa_roles", joinColumns = @JoinColumn(name = "id_pessoa"),
         inverseJoinColumns = @JoinColumn(name="id_role"))
         private List<Roles> roleId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roleId;
+        return this.roleId;
     }
 
     @Override
