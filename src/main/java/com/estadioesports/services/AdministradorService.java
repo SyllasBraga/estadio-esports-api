@@ -3,6 +3,7 @@ package com.estadioesports.services;
 import java.util.List;
 import java.util.UUID;
 
+import com.estadioesports.configs.validation.ValidaSenha;
 import com.estadioesports.entities.Roles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
@@ -15,29 +16,37 @@ import com.estadioesports.repository.AdministradorRepository;
 
 @Service
 public class AdministradorService {
-    
+
     AdministradorRepository admRepository;
+    ValidaSenha validaSenha = new ValidaSenha();
     public AdministradorService(AdministradorRepository admRepository) {
         this.admRepository = admRepository;
     }
 
-    public List<Administrador> findAll(){
+    public List<Administrador> findAll() {
         return admRepository.findAll();
     }
 
-    public ResponseEntity<Administrador> findById(UUID id){
+    public ResponseEntity<Administrador> findById(UUID id) {
         return admRepository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public Administrador create(Administrador adm){
-        adm.setSenha(passwordEncoder().encode(adm.getSenha()));
-        return admRepository.save(adm);
+    public String create(Administrador adm) {
+        boolean senha = validaSenha.validaTamanhoSenha(adm.getSenha());
+
+        if (senha == false){
+            return "Erro: A senha deve possuir mais de oito caracteres";
+        }else{
+            adm.setSenha(passwordEncoder().encode(adm.getSenha()));
+            admRepository.save(adm);
+            return "O administrador: "+ adm.getNome() +" foi salvo com sucesso";
+        }
     }
 
-    public ResponseEntity<Administrador>update(UUID id, Administrador adm){
-        return admRepository.findById(id).map(Record->{
+    public ResponseEntity<Administrador> update(UUID id, Administrador adm) {
+        return admRepository.findById(id).map(Record -> {
             Record.setDataNascimento(adm.getDataNascimento());
             Record.setCpf(adm.getCpf());
             Record.setLogin(adm.getLogin());
@@ -49,11 +58,11 @@ public class AdministradorService {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<?> delete(UUID id){
+    public ResponseEntity<?> delete(UUID id) {
         return admRepository.findById(id).map(Record -> {
             admRepository.deleteById(id);
             return ResponseEntity.ok().build();
-        }).orElse( ResponseEntity.notFound().build());
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     public BCryptPasswordEncoder passwordEncoder() {
