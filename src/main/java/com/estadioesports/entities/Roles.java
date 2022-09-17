@@ -24,5 +24,4 @@ public class Roles implements GrantedAuthority{
     public String getAuthority() {
         return this.roleName.toString();
     }
-
 }

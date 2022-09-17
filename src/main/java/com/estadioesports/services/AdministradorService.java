@@ -3,6 +3,7 @@ package com.estadioesports.services;
 import java.util.List;
 import java.util.UUID;
 
+import com.estadioesports.entities.Roles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +17,6 @@ import com.estadioesports.repository.AdministradorRepository;
 public class AdministradorService {
     
     AdministradorRepository admRepository;
-
     public AdministradorService(AdministradorRepository admRepository) {
         this.admRepository = admRepository;
     }
