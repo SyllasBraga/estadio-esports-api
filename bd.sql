@@ -6,9 +6,9 @@ create table administrador(
 id varchar(36) primary key not null,
 nome varchar(40) not null,
 data_nascimento date not null,
-cpf varchar(15) not null,
+cpf varchar(15) not null unique,
 salario double(10,2) not null,
-login varchar(20) not null,
+login varchar(20) not null unique,
 senha varchar(255) not null
 );
 
