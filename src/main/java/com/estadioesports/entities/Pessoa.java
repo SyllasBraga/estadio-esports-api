@@ -31,6 +31,8 @@ public class Pessoa implements UserDetails {
     private String cpf;
     @Size(min = 3, max = 40)
     private String nome;
+    @Size(min = 3, max = 40)
+    private String sobrenome;
     private Date dataNascimento;
     @Email
     private String login;

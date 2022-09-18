@@ -35,7 +35,7 @@ public class AdministradorController {
 
     @PreAuthorize("permitAll")
     @PostMapping
-    public String create(@RequestBody Administrador adm){
+    public ResponseEntity<Administrador> create(@RequestBody Administrador adm){
         return admService.create(adm);
     }
 

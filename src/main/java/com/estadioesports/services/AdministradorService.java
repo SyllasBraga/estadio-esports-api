@@ -1,14 +1,13 @@
 package com.estadioesports.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.estadioesports.configs.validation.ValidaSenha;
-import com.estadioesports.entities.Roles;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.estadioesports.entities.Administrador;
@@ -19,6 +18,7 @@ public class AdministradorService {
 
     AdministradorRepository admRepository;
     ValidaSenha validaSenha = new ValidaSenha();
+
     public AdministradorService(AdministradorRepository admRepository) {
         this.admRepository = admRepository;
     }
@@ -33,29 +33,35 @@ public class AdministradorService {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public String create(Administrador adm) {
+    public ResponseEntity<Administrador> create(Administrador adm) {
         boolean senha = validaSenha.validaTamanhoSenha(adm.getSenha());
 
-        if (senha == false){
-            return "Erro: A senha deve possuir mais de oito caracteres";
-        }else{
+        if (senha == false) {
+            return ResponseEntity.badRequest().build();
+        } else {
             adm.setSenha(passwordEncoder().encode(adm.getSenha()));
             admRepository.save(adm);
-            return "O administrador: "+ adm.getNome() +" foi salvo com sucesso";
+            return ResponseEntity.ok().body(adm);
         }
     }
 
     public ResponseEntity<Administrador> update(UUID id, Administrador adm) {
-        return admRepository.findById(id).map(Record -> {
-            Record.setDataNascimento(adm.getDataNascimento());
-            Record.setCpf(adm.getCpf());
-            Record.setLogin(adm.getLogin());
-            Record.setNome(adm.getNome());
-            Record.setSalario(adm.getSalario());
-            Record.setSenha(passwordEncoder().encode(adm.getSenha()));
-            Administrador atual = admRepository.save(Record);
-            return ResponseEntity.ok().body(atual);
-        }).orElse(ResponseEntity.notFound().build());
+        Boolean senha = validaSenha.validaTamanhoSenha(adm.getSenha());
+        if (senha == false) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            return admRepository.findById(id).map(Record -> {
+                Record.setDataNascimento(adm.getDataNascimento());
+                Record.setCpf(adm.getCpf());
+                Record.setLogin(adm.getLogin());
+                Record.setNome(adm.getNome());
+                Record.setSobrenome(adm.getSobrenome());
+                Record.setSalario(adm.getSalario());
+                Record.setSenha(passwordEncoder().encode(adm.getSenha()));
+                Administrador atual = admRepository.save(Record);
+                return ResponseEntity.ok().body(atual);
+            }).orElse(ResponseEntity.notFound().build());
+        }
     }
 
     public ResponseEntity<?> delete(UUID id) {
