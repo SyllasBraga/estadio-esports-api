@@ -1,15 +1,19 @@
 package com.estadioesports.controller;
 
 
+import com.estadioesports.dtos.AdministradorDto;
 import com.estadioesports.entities.Administrador;
 import com.estadioesports.services.AdministradorService;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping({"/administradores"})
@@ -35,13 +39,17 @@ public class AdministradorController {
 
     @PreAuthorize("permitAll")
     @PostMapping
-    public ResponseEntity<Administrador> create(@RequestBody Administrador adm){
+    public ResponseEntity<Administrador> create(@RequestBody @Valid AdministradorDto admDto){
+        Administrador adm = new Administrador();
+        BeanUtils.copyProperties(admDto, adm);
         return admService.create(adm);
     }
 
     @PreAuthorize("permitAll")
     @PutMapping(path="/{id}")
-    public ResponseEntity<Administrador> update(@PathVariable("id") UUID id, @RequestBody Administrador adm){
+    public ResponseEntity<Administrador> update(@PathVariable("id") UUID id, @RequestBody @Valid AdministradorDto admDto){
+        Administrador adm = new Administrador();
+        BeanUtils.copyProperties(admDto, adm);
         return admService.update(id, adm);
     }
 
