@@ -17,9 +17,11 @@ public class WebSecurityConfig{
         http
             .httpBasic()
             .and()
-            .authorizeHttpRequests()
-            .anyRequest().authenticated()
+            .cors()
             .and()
+            //.authorizeHttpRequests()
+            //.anyRequest().authenticated()
+            //.and()
             .csrf().disable();
         return http.build();
     }
