@@ -1,13 +1,13 @@
 package com.estadioesports.dtos;
 
-import java.sql.Date;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
 
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class PessoaDto {

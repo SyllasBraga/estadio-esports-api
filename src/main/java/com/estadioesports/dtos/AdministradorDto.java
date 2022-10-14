@@ -1,8 +1,6 @@
 package com.estadioesports.dtos;
 
-import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Size;
 
 import lombok.Data;
 
