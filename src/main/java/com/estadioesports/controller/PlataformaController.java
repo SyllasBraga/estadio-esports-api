@@ -1,14 +1,11 @@
 package com.estadioesports.controller;
 
 import com.estadioesports.dtos.PlataformaDto;
-import com.estadioesports.entities.Administrador;
 import com.estadioesports.entities.Plataforma;
 import com.estadioesports.services.PlataformaService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
