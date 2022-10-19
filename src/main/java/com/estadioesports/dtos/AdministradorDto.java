@@ -4,7 +4,6 @@ import javax.validation.constraints.DecimalMin;
 
 import lombok.Data;
 
-
 @Data
 public class AdministradorDto extends PessoaDto{
     

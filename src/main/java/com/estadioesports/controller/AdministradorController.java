@@ -5,9 +5,7 @@ import com.estadioesports.dtos.AdministradorDto;
 import com.estadioesports.entities.Administrador;
 import com.estadioesports.services.AdministradorService;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

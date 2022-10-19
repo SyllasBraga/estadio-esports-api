@@ -8,8 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Data
 public class Roles implements GrantedAuthority{

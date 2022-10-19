@@ -1,7 +1,6 @@
 package com.estadioesports.services;
 
 import com.estadioesports.entities.Genero;
-import com.estadioesports.entities.Plataforma;
 import com.estadioesports.repository.GeneroRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
