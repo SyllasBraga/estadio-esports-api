@@ -29,14 +29,9 @@ public class Pessoa implements UserDetails {
     private String login;
     private String senha;
 
-    @ManyToMany
-    @JoinTable(name = "pessoa_roles", joinColumns = @JoinColumn(name = "id_adm"),
-            inverseJoinColumns = @JoinColumn(name = "id_role"))
-    private List<Roles> roleId;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roleId;
+        return null;
     }
 
     @Override
