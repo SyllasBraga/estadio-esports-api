@@ -30,7 +30,7 @@ public class Pessoa implements UserDetails {
     private String senha;
 
     @ManyToMany
-    @JoinTable(name = "pessoa_roles", joinColumns = @JoinColumn(name = "id_pessoa"),
+    @JoinTable(name = "pessoa_roles", joinColumns = @JoinColumn(name = "id_adm"),
             inverseJoinColumns = @JoinColumn(name = "id_role"))
     private List<Roles> roleId;
 
