@@ -84,9 +84,12 @@ $
 
 insert into roles(role_id, role_name) values (default, 'administrador'), (default, 'tecnico'), (default, 'espectador'), (default, 'jogador');
 
-insert into administrador(id, nome, sobrenome, data_nascimento, cpf, salario, login, senha) values ("a10afdbf-75ba-45aa-bdc7-94e354773979", "José", "Carlos", "2000-10-22", "535.387.200-29", 1299, "josé@estadio-esports.com", "$2a$12$U8u4eEJ4nM4I5FtTZgonbuyZ4tYnhhYnjrLLbPR33uxnV5EQ9jqmO"), 
+insert into administrador(id, nome, sobrenome, data_nascimento, cpf, salario, login, senha) values ("a10afdbf-75ba-45aa-bdc7-94e354773979", "José", "Carlos", "2000-10-22", "535.387.200-29", 1299, "josé@estadio-esports.com", "$2a$12$U8u4eEJ4nM4I5FtTZgonbuyZ4tYnhhYnjrLLbPR33uxnV5EQ9jqmO"),
 ("c27e27a0-58c1-4614-a9cf-5bab4077b7a3", "Maria", "Braga", "1999-7-12","667.387.150-29", 1998, "maria@estadio-esports.com", "$2a$12$U8u4eEJ4nM4I5FtTZgonbuyZ4tYnhhYnjrLLbPR33uxnV5EQ9jqmO"),
- ("6e95a5f4-d63e-40e5-a407-5481991247da","Pedro", "Barbosa", "2004-06-09","125.187.200-29", 999, "pedro@estadio-esports.com", "$2a$12$U8u4eEJ4nM4I5FtTZgonbuyZ4tYnhhYnjrLLbPR33uxnV5EQ9jqmO");
+("39b5bdd7-0e9b-4149-8d41-2c0d9d50c1bb","João", "Barbosa", "2004-06-09","466.167.180-50", 1999, "joao@estadio-esports.com", "$2a$12$U8u4eEJ4nM4I5FtTZgonbuyZ4tYnhhYnjrLLbPR33uxnV5EQ9jqmO"),
+("33e32278-eb27-46c9-bde1-1ad1eca57932","Syllas", "Braga", "2004-06-09","604.936.240-82", 9949, "syllas@estadio-esports.com", "$2a$12$U8u4eEJ4nM4I5FtTZgonbuyZ4tYnhhYnjrLLbPR33uxnV5EQ9jqmO"),
+("90ab9ff8-7da7-4345-ad78-9fd4d7041c87","Josefina", "Barbosa", "2004-06-09","895.416.230-42", 999, "josefina@estadio-esports.com", "$2a$12$U8u4eEJ4nM4I5FtTZgonbuyZ4tYnhhYnjrLLbPR33uxnV5EQ9jqmO");
+
 insert into genero (id, nome_gen) values (default, 'FPS'), (default, 'Battle Royale'),(default, 'Moba'),
 (default, 'RPG'), (default, 'MMORPG');
 
@@ -94,7 +97,7 @@ insert into plataforma (id, nome_plataforma) values (default, 'Mobile'), (defaul
 
 insert into jogo (id, nome_jogo, adm, plataforma, genero) values (default,'PUBG', 'a10afdbf-75ba-45aa-bdc7-94e354773979', 3, 2),
  (default,'CS:GO', 'a10afdbf-75ba-45aa-bdc7-94e354773979', 3, 1),
-(default,'Free Fire', 'c27e27a0-58c1-4614-a9cf-5bab4077b7a3', 1, 2), (default,'League of Legends', '6e95a5f4-d63e-40e5-a407-5481991247da', 3, 3),
+(default,'Free Fire', 'c27e27a0-58c1-4614-a9cf-5bab4077b7a3', 1, 2), (default,'League of Legends', '39b5bdd7-0e9b-4149-8d41-2c0d9d50c1bb', 3, 3),
  (default,'Call of Duty: Warzone', 'a10afdbf-75ba-45aa-bdc7-94e354773979', 2, 2), (default,'Overwatch', 'c27e27a0-58c1-4614-a9cf-5bab4077b7a3', 3,1 ),
  (default,'Fortnite','a10afdbf-75ba-45aa-bdc7-94e354773979', 1, 2), (default,'League of Legends: Wild Rift', 'a10afdbf-75ba-45aa-bdc7-94e354773979', 1, 3),
 (default,'PUBG: New States', 'a10afdbf-75ba-45aa-bdc7-94e354773979', 1, 2), (default,'Rainbow Six Siege', 'a10afdbf-75ba-45aa-bdc7-94e354773979', 2, 1);
@@ -102,7 +105,7 @@ insert into jogo (id, nome_jogo, adm, plataforma, genero) values (default,'PUBG'
 insert into evento (id, nome_evt, data_inicio, data_fim, premiacao, exclusivo_arena, cod_adm, cod_jogo) values
 (default, '3º edição do Counter Strike para amadores', '2021-11-29 15:00:00', '2021-12-03 22:00:00', 1500.00, true, 'a10afdbf-75ba-45aa-bdc7-94e354773979', 2),
 (default, 'PUBG para todos', '2021-11-15 18:00', '2021-11-15 23:59', 5000.00, false, 'c27e27a0-58c1-4614-a9cf-5bab4077b7a3',1),
-(default, 'Tiozão também joga', '2021-12-04 13:00', '2021-12-04 23:59', 50000.00, false, '6e95a5f4-d63e-40e5-a407-5481991247da', 5),
+(default, 'Tiozão também joga', '2021-12-04 13:00', '2021-12-04 23:59', 50000.00, false, 'a10afdbf-75ba-45aa-bdc7-94e354773979', 5),
 (default, 'LOL também é jogo', '2021-12-10 23:00', '2021-12-13 01:59', 1000.00, true, 'a10afdbf-75ba-45aa-bdc7-94e354773979', 3),
 (default, 'Campeonato Profissional de Overwatch', '2021-11-21 11:00', '2021-11-23 15:59', 100000.00, false, 'c27e27a0-58c1-4614-a9cf-5bab4077b7a3', 6),
 (default, '1º edição do campeonato de talentos do PUBG: New States', '2021-12-10 16:00', '2021-12-15 23:59', 20000.00, false, 'a10afdbf-75ba-45aa-bdc7-94e354773979', 1);
