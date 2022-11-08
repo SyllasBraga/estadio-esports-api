@@ -4,10 +4,8 @@ import com.estadioesports.dtos.EventoDto;
 import com.estadioesports.entities.Evento;
 import com.estadioesports.services.EventoService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,13 +20,13 @@ public class EventoController {
         this.eventoService = eventoService;
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasAuthority('administrador')")
     @GetMapping
     public List<Evento> findAll(){
         return eventoService.findAll();
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasAuthority('espectador')")
     @GetMapping(path = "/{id}")
     public ResponseEntity<Evento> findById(@PathVariable Long id){
         return eventoService.findById(id);

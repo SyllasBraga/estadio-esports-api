@@ -4,7 +4,6 @@ import com.estadioesports.dtos.PessoaDto;
 import com.estadioesports.entities.Espectador;
 import com.estadioesports.services.EspectadorService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
