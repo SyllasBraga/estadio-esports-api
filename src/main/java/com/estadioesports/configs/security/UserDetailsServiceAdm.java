@@ -1,7 +1,6 @@
 package com.estadioesports.configs.security;
 
 import com.estadioesports.entities.Administrador;
-import com.estadioesports.entities.Espectador;
 import com.estadioesports.repository.AdministradorRepository;
 import com.estadioesports.repository.EspectadorRepository;
 
@@ -15,13 +14,13 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceAdm implements UserDetailsService {
 
 
     final AdministradorRepository admRepository;
     final EspectadorRepository espectadorRepository;
 
-    public UserDetailsServiceImpl(AdministradorRepository admRepository, EspectadorRepository espectadorRepository) {
+    public UserDetailsServiceAdm(AdministradorRepository admRepository, EspectadorRepository espectadorRepository) {
         this.admRepository = admRepository;
         this.espectadorRepository = espectadorRepository;
     }
@@ -30,18 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Administrador adm = admRepository.findByLogin(login)
                 .orElseThrow(()-> new UsernameNotFoundException ("Esse login não foi encontrado" + login));
-        Espectador espectador = espectadorRepository.findByLogin(login)
-                .orElseThrow(()-> new UsernameNotFoundException ("Esse login não foi encontrado" + login));
-        System.out.println(adm.getNome());
-            if (adm.getId() != null) {
+
             return new User(adm.getLogin(), adm.getSenha(), true,
              true, true,
              true, adm.getAuthorities());   
-        } else {
-            return new User(espectador.getLogin(), espectador.getSenha(), true,
-             true, true,
-             true, espectador.getAuthorities());   
-        }
-              
     }
 }

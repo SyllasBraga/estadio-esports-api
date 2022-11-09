@@ -8,6 +8,7 @@ public class EstadioDeESportsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EstadioDeESportsApplication.class, args);
-	}
 
+	}	
 }
+
