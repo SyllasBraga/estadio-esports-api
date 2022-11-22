@@ -35,7 +35,7 @@ create table jogo(
 create table genero(
 	id int primary key auto_increment not null,
 	nome_gen varchar(50) not null
-);/;
+);
 
 create table plataforma(
 	id int primary key not null auto_increment,
@@ -145,6 +145,51 @@ alter table
 add
 	foreign key fk_id_espectador(id_espectador) references espectador(id);
 
+#View para mostrar todos os eventos cadastrados mostrando o nome do jogo e responsável pelo cadastrado     
+create view vw_evts as
+select evt.id as "Id", evt.nome_evt as "Nome do evento",
+evt.data_inicio as "Início",
+evt.data_fim as "Fim",
+evt.premiacao as "Premiação",
+evt.exclusivo_arena as "Exclusivo",
+jg.nome_jogo as "Jogo disputado",
+adm.nome as "Cadastrado por" from evento evt
+inner join jogo jg on evt.cod_jogo = jg.id
+inner join administrador adm on evt.cod_adm = adm.id;
+
+#View para mostrar todos os jogos cadastrados mostrando o nome do gênero, plataforma e responsável pelo cadastrado 
+create view vw_jogos as
+select jg.id as "Id", jg.nome_jogo as
+"Nome do jogo",
+gen.nome_gen as "Gênero",
+plat.nome_plataforma as "Plataforma",
+adm.nome as "Cadastrado por" from
+jogo jg
+inner join genero gen on jg.genero =
+gen.id
+inner join plataforma plat on
+jg.plataforma = plat.id
+inner join administrador adm on
+jg.adm = adm.id;
+
+#View para mostrar todos os carrinhos montados excluindo os ingressos já expirados
+create view vw_carrinho as
+select evt.nome_evt as "Evento", ic.quantidade as "Quantidade", ic.valor_total as "Valor total", car.data_abertura as "Data de abertura", espec.nome as "Responsável"
+from evento evt 
+inner join ingresso ing on evt.id = ing.evento
+inner join itens_carrinho ic on ing.id = ic.ingresso
+inner join carrinho car on ic.carrinho = car.id
+inner join espectador espec on car.espectador = espec.id
+where ing.validade >= now();
+
+#View para mostrar todos as pessoas cadastradas e as suas regras
+create view vw_pessoas as
+select adm.nome, rl.role_name
+from pessoa_roles pr
+inner join administrador adm on pr.id_adm = adm.id
+inner join roles rl on pr.id_role = rl.role_id;
+
+#Trigger para atribuir uma regra de administrador após um cadastro na tabela de administradores
 delimiter $ 
 create trigger tr_insert_role_adm
 after insert on administrador for each row begin
@@ -164,19 +209,19 @@ values
 	(new.id, 3);
 end $ 
 
+#Trigger para calcular o valor total de uma lista de compras
 delimiter $ 
 create trigger tr_insert_itens_carrinho 
 before insert
 	on itens_carrinho for each row begin
-set
-	@valor_ingresso = (
+set @valor_ingresso = (
 		select ing.valor from ingresso ing where id = new.ingresso
 	);
-
 set
 	new.valor_total = new.quantidade * @valor_ingresso;
 end $ 
 
+#Trigger para diminuir a quantidade de ingressos disponíveis após um novo cadastro em um carrinho
 delimiter $ 
 create trigger tr_atualiza_estoque before
 insert
@@ -186,6 +231,7 @@ where
 	ing.id = new.ingresso;
 end $
 
+#Trigger para excluir o tipo de acesso ao sistema antes de excluir um adm
 delimiter $
 create trigger tr_exclui_pessoa_roles before
 delete on administrador
@@ -196,6 +242,7 @@ where
 	id_adm = old.id;
 end $
 
+#Procedure para casdastrar administradores
 DELIMITER $ 
 create procedure pr_cad_adm(
 	pr_id varchar(36),
@@ -557,7 +604,7 @@ values
 	(default, 5.99, 3, 200, "2022-11-30"),
 	(default, 45.99, 4, 600, "2023-12-10"),
 	(default, 11.99, 5, 50, "2022-12-31"),
-	(default, 14.99, 6, 60, "2023-01-01");
+	(default, 14.99, 6, 60, "2022-01-01");
 
 insert into
 	carrinho(data_abertura, espectador)
@@ -598,30 +645,3 @@ values
 	(4, 4, 5),
 	(5, 1, 1);
     
-create view vw_evts as
-select evt.id as "Id", evt.nome_evt as "Nome do evento",
-evt.data_inicio as "Início",
-evt.data_fim as "Fim",
-evt.premiacao as "Premiação",
-evt.exclusivo_arena as "Exclusivo",
-jg.nome_jogo as "Jogo disputado",
-adm.nome as "Cadastrado por" from evento evt
-inner join jogo jg on evt.cod_jogo = jg.id
-inner join administrador adm on evt.cod_adm = adm.id;
-
-create view vw_jogos as
-select jg.id as "Id", jg.nome_jogo as
-"Nome do jogo",
-gen.nome_gen as "Gênero",
-plat.nome_plataforma as "Plataforma",
-adm.nome as "Cadastrado por" from
-jogo jg
-inner join genero gen on jg.genero =
-gen.id
-inner join plataforma plat on
-jg.plataforma = plat.id
-inner join administrador adm on
-jg.adm = adm.id;
-
-create view vw_carrinho_completo as
-select 
