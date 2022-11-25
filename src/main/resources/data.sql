@@ -145,6 +145,16 @@ alter table
 add
 	foreign key fk_id_espectador(id_espectador) references espectador(id);
 
+#View para mostrar todos os carrinhos montados excluindo os ingressos já expirados
+create view vw_carrinho as
+select evt.nome_evt as "Evento", ic.quantidade as "Quantidade", ic.valor_total as "Valor total", car.data_abertura as "Data de abertura", espec.nome as "Responsável"
+from evento evt 
+inner join ingresso ing on evt.id = ing.evento
+inner join itens_carrinho ic on ing.id = ic.ingresso
+inner join carrinho car on ic.carrinho = car.id
+inner join espectador espec on car.espectador = espec.id
+where ing.validade >= now();
+
 #View para mostrar todos os eventos cadastrados mostrando o nome do jogo e responsável pelo cadastrado     
 create view vw_evts as
 select evt.id as "Id", evt.nome_evt as "Nome do evento",
@@ -171,16 +181,6 @@ inner join plataforma plat on
 jg.plataforma = plat.id
 inner join administrador adm on
 jg.adm = adm.id;
-
-#View para mostrar todos os carrinhos montados excluindo os ingressos já expirados
-create view vw_carrinho as
-select evt.nome_evt as "Evento", ic.quantidade as "Quantidade", ic.valor_total as "Valor total", car.data_abertura as "Data de abertura", espec.nome as "Responsável"
-from evento evt 
-inner join ingresso ing on evt.id = ing.evento
-inner join itens_carrinho ic on ing.id = ic.ingresso
-inner join carrinho car on ic.carrinho = car.id
-inner join espectador espec on car.espectador = espec.id
-where ing.validade >= now();
 
 #View para mostrar todos as pessoas cadastradas e as suas regras
 create view vw_pessoas as
@@ -224,8 +224,7 @@ end $
 #Trigger para diminuir a quantidade de ingressos disponíveis após um novo cadastro em um carrinho
 delimiter $ 
 create trigger tr_atualiza_estoque before
-insert
-	on itens_carrinho for each row begin
+insert on itens_carrinho for each row begin
 update ingresso ing set ing.estoque = estoque - new.quantidade
 where
 	ing.id = new.ingresso;
@@ -241,6 +240,14 @@ begin
 where
 	id_adm = old.id;
 end $
+
+#Procedure para cadastrar um novo ingresso adicionando um valor com desconto 
+DELIMITER $ 
+create procedure pr_cad_ingresso(pr_valor double(10,2), pr_evento varchar(36), pr_estoque int, pr_validade date) BEGIN
+insert into
+	ingresso(valor, evento, estoque, validade, valor_desconto)
+values (pr_valor, pr_evento, pr_estoque, pr_validade, pr_valor * 0.9);
+END $
 
 #Procedure para casdastrar administradores
 DELIMITER $ 
@@ -296,14 +303,6 @@ set
 where
 	id = pr_id;
 END $ 
-
-#Procedure para cadastrar um novo ingresso adicionando um valor com desconto 
-DELIMITER $ 
-create procedure pr_cad_ingresso(pr_valor double(10,2), pr_evento varchar(36), pr_estoque int, pr_validade date) BEGIN
-insert into
-	ingresso(valor, evento, estoque, validade, valor_desconto)
-values (pr_valor, pr_evento, pr_estoque, pr_validade, pr_valor * 0.9);
-END $
 
 insert into
 	roles(role_id, role_name)
