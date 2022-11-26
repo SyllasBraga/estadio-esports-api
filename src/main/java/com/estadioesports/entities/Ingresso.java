@@ -2,13 +2,7 @@ package com.estadioesports.entities;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -17,7 +11,7 @@ import lombok.Data;
 public class Ingresso {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private int estoque;
@@ -25,8 +19,7 @@ public class Ingresso {
     private Date validade;
 
     @ManyToOne
-    @JoinTable(name = "evento", joinColumns = @JoinColumn(name = "id"),
-    inverseJoinColumns = @JoinColumn(name = "evento"))
+    @JoinColumn(name = "evento")
     private Evento evento;
 
 }
