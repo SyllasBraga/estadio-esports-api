@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,19 +29,13 @@ public class UserDetailsServiceAdm implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         try {
-            Administrador adm = admRepository.findByLogin(login).orElseThrow(() -> null);
+            Administrador adm = admRepository.findByLogin(login).orElse(null);
 
-            if (adm.getId() == null) {
-                Espectador espectador = espectadorRepository.findByLogin(login)
-                        .orElseThrow(() -> null);
-
-                return new User(espectador.getLogin(), espectador.getSenha(), true,
-                        true, true,
-                        true, espectador.getAuthorities());
+            if (adm != null) {
+                return new User(adm.getLogin(), adm.getSenha(), true, true, true, true, adm.getAuthorities());
             } else {
-                return new User(adm.getLogin(), adm.getSenha(), true,
-                        true, true,
-                        true, adm.getAuthorities());
+                Espectador espectador = espectadorRepository.findByLogin(login).orElseThrow(() -> null);
+                return new User(espectador.getLogin(), espectador.getSenha(), true, true, true, true, espectador.getAuthorities());
             }
 
         } catch (UsernameNotFoundException e) {

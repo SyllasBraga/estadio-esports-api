@@ -25,7 +25,7 @@ public class AdministradorController {
         this.admService = admService;
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("hasAuthority('administrador')")
     @GetMapping
     public List<Administrador> findAll(){
          return admService.findAll();
